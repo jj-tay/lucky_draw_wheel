@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucky Draw Wheel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    #wheelContainer {
+      position: relative;
+      display: inline-block;
+    }
+    #wheelCanvas {
+      margin-top: 20px;
+      border: 5px solid #000;
+      border-radius: 50%;
+    }
+    #arrow {
+      position: absolute;
+      top: 50%;
+      right: -60px;
+      transform: translateY(-50%);
+      font-size: 30px;
+      color: red;
+    }
+    #inputSection {
+      margin: 20px 0;
+    }
+    #spinButton {
+      padding: 10px 20px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    #spinButton:disabled {
+      background-color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Lucky Draw Wheel</h1>
+
+  <div id="inputSection">
+    <input type="text" id="StaffIDInput" placeholder="Enter your staff ID" />
+    <button id="spinButton" onclick="addStaffIDAndSpin()">Add Staff ID & Spin Wheel</button>
+  </div>
+
+  <div id="wheelContainer">
+    <canvas id="wheelCanvas" width="600" height="600"></canvas>
+    <!-- Arrow indicator -->
+    <div id="arrow">⬅️</div>
+  </div>
+
+  <p id="message"></p>
+
+  <script src="wheel.js"></script>
+</body>
+</html>
