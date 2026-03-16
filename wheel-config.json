@@ -1,0 +1,7 @@
+{
+  "sections": [
+    { "label": "Card Holder", "count": 4 },
+    { "label": "Stickers",    "count": 4 }
+  ],
+  "colorPalette": ["#FCAA67", "#B0413E", "#4CAF50", "#2196F3", "#9C27B0", "#FF5722"]
+}

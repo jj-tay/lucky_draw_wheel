@@ -9,23 +9,43 @@ const spinButton = document.getElementById("spinButton");
 const wheelCanvas = document.getElementById("wheelCanvas");
 const ctx = wheelCanvas.getContext("2d");
 
-const sections = ["Card Holder", "Stickers", "Card Holder", "Stickers", "Card Holder", "Stickers", "Card Holder", "Stickers", ]; // Wheel sections
-const numSections = sections.length;
-const colors = ["#FCAA67", "#B0413E", "#FCAA67", "#B0413E", "#FCAA67", "#B0413E", "#FCAA67", "#B0413E", ]; // Colors for sections
+let sections = [];
+let numSections = 0;
+let colors = [];
 
 let currentAngle = 0;
 let spinning = false;
 
-// Load allowed StaffIDs from external JSON and draw the wheel when the page loads
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Load config files and draw the wheel when the page loads
 window.onload = async function () {
   try {
-    const response = await fetch('staff-ids.json');
-    const data = await response.json();
-    allowedStaffIDs = data.allowedStaffIDs.map(id => id.toUpperCase());
+    const [staffRes, wheelRes] = await Promise.all([
+      fetch('staff-ids.json'),
+      fetch('wheel-config.json')
+    ]);
+    const staffData = await staffRes.json();
+    const wheelData = await wheelRes.json();
+
+    allowedStaffIDs = staffData.allowedStaffIDs.map(id => id.toUpperCase());
+
+    const expanded = wheelData.sections.flatMap(s => Array(s.count).fill(s.label));
+    sections = shuffle(expanded);
+    numSections = sections.length;
+    colors = sections.map((_, i) => wheelData.colorPalette[i % wheelData.colorPalette.length]);
+
     console.log('Allowed StaffIDs loaded:', allowedStaffIDs);
+    console.log('Wheel sections:', sections);
   } catch (err) {
-    console.error('Failed to load staff IDs:', err);
-    message.innerText = 'Error: could not load staff IDs. Please refresh.';
+    console.error('Failed to load config:', err);
+    message.innerText = 'Error: could not load configuration. Please refresh.';
   }
   drawWheel();
 };
