@@ -47,7 +47,9 @@ window.onload = async function () {
     console.error('Failed to load config:', err);
     message.innerText = 'Error: could not load configuration. Please refresh.';
   }
-  drawWheel();
+  if (sections.length > 0) {
+    drawWheel();
+  }
 };
 
 // Function to draw the wheel
