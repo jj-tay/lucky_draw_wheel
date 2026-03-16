@@ -1,7 +1,6 @@
 // JavaScript Code (wheel.js)
 
-// Directly embedding the allowed StaffIDs list in the code, formatted in uppercase
-const allowedStaffIDs = ["ALICE", "BOB", "CHARLIE", "DIANA", "EVE", "FRANK"];
+let allowedStaffIDs = [];
 
 const enteredStaffIDs = new Set(loadStaffIDsFromStorage()); // Load StaffIDs from localStorage
 const message = document.getElementById("message");
@@ -17,15 +16,18 @@ const colors = ["#FCAA67", "#B0413E", "#FCAA67", "#B0413E", "#FCAA67", "#B0413E"
 let currentAngle = 0;
 let spinning = false;
 
-// Function to load allowed StaffIDs (now embedded directly)
-function loadAllowedStaffIDs() {
-  console.log('Allowed StaffIDs loaded:', allowedStaffIDs); // For debugging
-}
-
-// Load allowed StaffIDs and draw the wheel when the page loads
-window.onload = function() {
-  loadAllowedStaffIDs(); // Load the allowed StaffIDs
-  drawWheel(); // Draw the initial wheel
+// Load allowed StaffIDs from external JSON and draw the wheel when the page loads
+window.onload = async function () {
+  try {
+    const response = await fetch('staff-ids.json');
+    const data = await response.json();
+    allowedStaffIDs = data.allowedStaffIDs.map(id => id.toUpperCase());
+    console.log('Allowed StaffIDs loaded:', allowedStaffIDs);
+  } catch (err) {
+    console.error('Failed to load staff IDs:', err);
+    message.innerText = 'Error: could not load staff IDs. Please refresh.';
+  }
+  drawWheel();
 };
 
 // Function to draw the wheel
