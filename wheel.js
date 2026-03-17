@@ -36,10 +36,9 @@ window.onload = async function () {
 
     allowedStaffIDs = staffData.allowedStaffIDs.map(id => id.toUpperCase());
 
-    const expanded = wheelData.sections.flatMap(s => Array(s.count).fill(s.label));
-    sections = shuffle(expanded);
+    sections = shuffle([...wheelData.sections]);
     numSections = sections.length;
-    colors = sections.map((_, i) => wheelData.colorPalette[i % wheelData.colorPalette.length]);
+    colors = sections.map((_, i) => wheelData.colors[i % wheelData.colors.length]);
 
     console.log('Allowed StaffIDs loaded:', allowedStaffIDs);
     console.log('Wheel sections:', sections);
