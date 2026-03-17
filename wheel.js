@@ -16,14 +16,6 @@ let colors = [];
 let currentAngle = 0;
 let spinning = false;
 
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
-
 // Load config files and draw the wheel when the page loads
 window.onload = async function () {
   try {
@@ -36,7 +28,7 @@ window.onload = async function () {
 
     allowedStaffIDs = staffData.allowedStaffIDs.map(id => id.toUpperCase());
 
-    sections = shuffle([...wheelData.sections]);
+    sections = wheelData.sections;
     numSections = sections.length;
     colors = sections.map((_, i) => wheelData.colors[i % wheelData.colors.length]);
 
