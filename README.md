@@ -53,7 +53,7 @@ Staff IDs are case-insensitive. Each ID can only spin once per session.
 ```
 
 - `sections`: Array of prize labels. Repeat a label to increase its probability.
-- `colors`: Array of hex colors cycled across sections.
+- `colors`: Array of hex colors cycled across sections. Use [coolors.co](https://coolors.co/generate) to generate a complementary palette — add or remove swatches until you have the number of colors you need, then copy each hex code (e.g. `#FF5722`).
 
 ### Allowed staff IDs — `staff-ids.json`
 
