@@ -53,7 +53,7 @@ Staff IDs are case-insensitive. Each ID can only spin once per session.
 ```
 
 - `sections`: Array of prize labels. Repeat a label to increase its probability.
-- `colors`: Array of hex colors cycled across sections.
+- `colors`: Array of hex colors cycled across sections. Use a color picker tool like [htmlcolorcodes.com](https://htmlcolorcodes.com/) to choose colors and copy the hex code (e.g. `#FF5722`).
 
 ### Allowed staff IDs — `staff-ids.json`
 
