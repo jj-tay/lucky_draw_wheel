@@ -1,7 +1,6 @@
 // JavaScript Code (wheel.js)
 
-// Directly embedding the allowed StaffIDs list in the code, formatted in uppercase
-const allowedStaffIDs = ["ALICE", "BOB", "CHARLIE", "DIANA", "EVE", "FRANK"];
+let allowedStaffIDs = [];
 
 const enteredStaffIDs = new Set(loadStaffIDsFromStorage()); // Load StaffIDs from localStorage
 const message = document.getElementById("message");
@@ -10,22 +9,38 @@ const spinButton = document.getElementById("spinButton");
 const wheelCanvas = document.getElementById("wheelCanvas");
 const ctx = wheelCanvas.getContext("2d");
 
-const sections = ["Card Holder", "Stickers", "Card Holder", "Stickers", "Card Holder", "Stickers", "Card Holder", "Stickers", ]; // Wheel sections
-const numSections = sections.length;
-const colors = ["#FCAA67", "#B0413E", "#FCAA67", "#B0413E", "#FCAA67", "#B0413E", "#FCAA67", "#B0413E", ]; // Colors for sections
+let sections = [];
+let numSections = 0;
+let colors = [];
 
 let currentAngle = 0;
 let spinning = false;
 
-// Function to load allowed StaffIDs (now embedded directly)
-function loadAllowedStaffIDs() {
-  console.log('Allowed StaffIDs loaded:', allowedStaffIDs); // For debugging
-}
+// Load config files and draw the wheel when the page loads
+window.onload = async function () {
+  try {
+    const [staffRes, wheelRes] = await Promise.all([
+      fetch('staff-ids.json'),
+      fetch('wheel-config.json')
+    ]);
+    const staffData = await staffRes.json();
+    const wheelData = await wheelRes.json();
 
-// Load allowed StaffIDs and draw the wheel when the page loads
-window.onload = function() {
-  loadAllowedStaffIDs(); // Load the allowed StaffIDs
-  drawWheel(); // Draw the initial wheel
+    allowedStaffIDs = staffData.allowedStaffIDs.map(id => id.toUpperCase());
+
+    sections = wheelData.sections;
+    numSections = sections.length;
+    colors = sections.map((_, i) => wheelData.colors[i % wheelData.colors.length]);
+
+    console.log('Allowed StaffIDs loaded:', allowedStaffIDs);
+    console.log('Wheel sections:', sections);
+  } catch (err) {
+    console.error('Failed to load config:', err);
+    message.innerText = 'Error: could not load configuration. Please refresh.';
+  }
+  if (sections.length > 0) {
+    drawWheel();
+  }
 };
 
 // Function to draw the wheel
