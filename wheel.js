@@ -23,6 +23,8 @@ window.onload = async function () {
       fetch('staff-ids.json'),
       fetch('wheel-config.json')
     ]);
+    if (!staffRes.ok) throw new Error(`Could not load staff-ids.json (HTTP ${staffRes.status})`);
+    if (!wheelRes.ok) throw new Error(`Could not load wheel-config.json (HTTP ${wheelRes.status})`);
     const staffData = await staffRes.json();
     const wheelData = await wheelRes.json();
 
@@ -34,12 +36,10 @@ window.onload = async function () {
 
     console.log('Allowed StaffIDs loaded:', allowedStaffIDs);
     console.log('Wheel sections:', sections);
+    drawWheel();
   } catch (err) {
     console.error('Failed to load config:', err);
     message.innerText = 'Error: could not load configuration. Please refresh.';
-  }
-  if (sections.length > 0) {
-    drawWheel();
   }
 };
 
